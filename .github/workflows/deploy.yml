@@ -1,0 +1,38 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/war:latest
+
+      - name: Trigger Deploy Agent
+        run: |
+          curl -X POST "${{ secrets.DEPLOY_AGENT_URL }}" \
+          -H "Content-Type: application/json" \
+          -H "X-Hub-Signature-256: sha256=$(echo -n '{"repo": "war"}' | openssl dgst -sha256 -hmac "${{ secrets.DEPLOY_WEBHOOK_SECRET }}" | sed 's/^.* //')" \
+          -d "{\"repo\": \"war\"}"
