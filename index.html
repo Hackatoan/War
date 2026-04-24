@@ -3,37 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo App Pipeline</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f9;
-        }
-        .container {
-            text-align: center;
-            padding: 2rem;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #333;
-        }
-        p {
-            color: #666;
-        }
-    </style>
+    <title>Text War Game</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Demo App Pipeline</h1>
-        <p>This is a simple webpage for demo purposes of the app pipeline.</p>
-        <p>This will be something real soon, but for now just a test page.</p>
+    <div id="app">
+        <!-- Login Screen -->
+        <div id="login-screen" class="screen active">
+            <div class="login-container">
+                <h1>Text War Game</h1>
+                <p>Welcome to the battlefield. Build your team, collect items, and conquer!</p>
+                <div class="login-buttons">
+                    <button id="btn-login-google" class="btn primary">Sign in with Google</button>
+                    <button id="btn-login-email" class="btn secondary">Sign in with Email</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen hidden">
+            <header>
+                <h2>Command Center</h2>
+                <div id="player-stats">
+                    <span id="stat-gold">Gold: 0</span>
+                </div>
+                <button id="btn-logout" class="btn small danger">Logout</button>
+            </header>
+
+            <nav id="game-nav">
+                <button class="nav-btn active" data-tab="tab-base">Base</button>
+                <button class="nav-btn" data-tab="tab-team">Team</button>
+                <button class="nav-btn" data-tab="tab-battle">Battle</button>
+                <button class="nav-btn" data-tab="tab-store">Store</button>
+            </nav>
+
+            <main id="game-content">
+                <!-- Base Tab -->
+                <section id="tab-base" class="tab-content active">
+                    <h3>Your Base</h3>
+                    <div id="base-info">
+                        <p>Welcome to your base. It's quiet here... for now.</p>
+                        <div id="inventory-list"></div>
+                    </div>
+                </section>
+
+                <!-- Team Tab -->
+                <section id="tab-team" class="tab-content hidden">
+                    <h3>Your Heroes</h3>
+                    <div id="team-list"></div>
+                </section>
+
+                <!-- Battle Tab -->
+                <section id="tab-battle" class="tab-content hidden">
+                    <h3>Battlefield</h3>
+                    <div id="battle-area">
+                        <p>Select an opponent to fight.</p>
+                        <div id="monster-list"></div>
+                        <div id="battle-log" class="hidden"></div>
+                    </div>
+                </section>
+
+                <!-- Store Tab -->
+                <section id="tab-store" class="tab-content hidden">
+                    <h3>Store</h3>
+                    <div id="store-list"></div>
+                </section>
+            </main>
+        </div>
     </div>
+
+    <!-- Scripts -->
+    <!-- Data -->
+    <script src="js/data/items.js"></script>
+    <script src="js/data/heroes.js"></script>
+    <script src="js/data/monsters.js"></script>
+    <!-- Engine -->
+    <script src="js/engine/player.js"></script>
+    <script src="js/engine/combat.js"></script>
+    <script src="js/engine/game.js"></script>
+    <!-- UI -->
+    <script src="js/ui/renderer.js"></script>
+    <!-- Main -->
+    <script src="js/main.js"></script>
 </body>
 </html>
